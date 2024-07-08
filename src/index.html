@@ -20,7 +20,7 @@
             <div class=" col-12 offset-md-3 col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <input class="form-control form-control-lg" type="text" readonly
+                        <input id="calc-display" class="form-control form-control-lg text-end" type="text" readonly
                             aria-label=".form-control-lg example">
                         <div class="row gx-1">
                             <div class="col-3">
@@ -97,6 +97,49 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("Document is ready");
+            const display = document.getElementById('calc-display');
+            const buttons = document.getElementsByClassName('btn');
+
+            let currentvalue = "";
+                function evaluateResult() {
+                    console.log("Current Value:" , currentvalue);
+                    const convertedvalue= currentvalue
+                    .replace("×","*")
+                    .replace("÷","/")
+                    .replace("%","*0.01");
+                    console.log("ConvertedValue:" , convertedvalue);
+                    
+                const result = eval(convertedvalue);
+                currentvalue = result.toString();
+                display.value=currentvalue;
+            }
+
+            for (let i = 0; i < buttons.length; i++) {
+                const button = buttons[i];
+                button.addEventListener('click', function () {
+                    const value = button.innerText;
+
+                    if (value == "AC") {
+                        currentvalue = "";
+                        display.value = currentvalue;
+                    } 
+                    else if(value == "=")
+                    {
+                        evaluateResult();
+                    } 
+                    else {
+                        currentvalue += value;
+                        console.log("Current Value:", currentvalue);
+                        display.value = currentvalue;
+                    }
+                })
+            }
+        });
+    </script>
 </body>
 
 </html>
